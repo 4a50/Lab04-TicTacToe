@@ -59,11 +59,13 @@ namespace Lab04_TicTacToe
 
             if (int.TryParse(board.GameBoard[position.Row, position.Column], out int _))
             {
-                board.GameBoard[position.Row, position.Column] = Marker;
+                board.GameBoard[position.Row, position.Column] = Marker;                
             }
             else
             {
+                IsTurn = false;
                 Console.WriteLine("This space is already occupied");
+                Console.ReadKey();
             }
         }
     }

@@ -1,11 +1,6 @@
 ﻿using System;
 
-// get player input
-// switch cases
-// update array with characters
-// check for valid player input
-// check for valid player placement
-// check for winner
+
 
 namespace Lab04_TicTacToe
 {
@@ -34,95 +29,32 @@ namespace Lab04_TicTacToe
         /// </summary>
         /// <returns>Winner</returns>
         public Player Play()
-        {
-
-            //TODO: Complete this method and utilize the rest of the class structure to play the game.
-            bool isValid = false;
-            //Determine Whose Turn
+        {            
+            int counter = 1;
+            Player currentPlayer;
             do
             {
-                Console.WriteLine($"{player.Name} pick you spot:");
-                string userInput = Console.Readline();
-                isValid = GetValidPosition(userInput);
-                if (!isValid) Console.WriteLine("Invalid Entry.  Try again");
-            } while (!isValid);
+                SwitchPlayer();
+                Board.DisplayBoard();                                
+                currentPlayer = NextPlayer();
+                if (counter > 9)
+                {
+                    currentPlayer.Name = "Draw";
+                    return currentPlayer;
+                }
+                currentPlayer.TakeTurn(Board);
+                counter++;
+            } while (!CheckForWinner(Board));
 
-            UpdateMatrix(userInput);
-
-
-            /*
-             * Complete this method by constructing the logic for the actual playing of Tic Tac Toe. 
-             * 
-             * A few things to get you started:
-            1. A turn consists of a player picking a position on the board with their designated marker. 
-            2. Display the board after every turn to show the most up to date state of the game
-            3. Once a Winner is determined, display the board one final time and return a winner
-
-            Few additional hints:
-                Be sure to keep track of the number of turns that have been taken to determine if a draw is required
-                and make sure that the game continues while there are unmarked spots on the board. 
-
-            Use any and all pre-existing methods in this program to help construct the method logic. 
-             */
+            Winner = currentPlayer;
+            Board.DisplayBoard();
+            return Winner;
         }
 
-        public int[] GetLocationOnBoard(string userInput)
+        public bool CheckForWinner(Board board)
         {
-
-            switch (userInput)
+            int[][] winners = new int[][]
             {
-                case "1":
-                    return new int[] { 0, 0 };
-                    break;
-                case "2":
-                    return new int[] { 0, 1 };
-                    break;
-                case "3":
-                    return new int[] { 0, 2 };
-                    break;
-                case "4":
-                    return new int[] { 1, 0 };
-                    break;
-                case "5":
-                    return new int[] { 1, 1 };
-                    break;
-                case "6":
-                    return new int[] { 1, 2 };
-                    break;
-                case "7":
-                    return new int[] { 2, 0 };
-                    break;
-                case "8":
-                    return new int[] { 2, 1 };
-                    break;
-                case "9":
-                    return new int[] { 2, 2 };
-                    break;
-
-            }
-            public string UpdateMatrix(int[] loc, string playerMark)
-            {
-                string testLocation = Gameboard[loc[0], loc[1]];
-                Gameboard[loc[0], loc[1]] = playerMark;
-                return testLocation;
-
-            }
-            public bool GetValidPosition(string userInput)
-            {
-                int number = 0;
-                if (!int.TryParse(userInput, int number)) return false;
-                if (number < 1 || number > 10) return false;
-                return true;
-            }
-            /// <summary>
-            /// Check if winner exists
-            /// </summary>
-            /// <param name="board">current state of the board</param>
-            /// <returns>if winner exists</returns>
-            public bool CheckForWinner(Board board)
-            {
-                int[][] winners = new int[][]
-                {
                 new[] {1,2,3},
                 new[] {4,5,6},
                 new[] {7,8,9},
@@ -133,57 +65,60 @@ namespace Lab04_TicTacToe
 
                 new[] {1,5,9},
                 new[] {3,5,7}
-                };
+            };
 
-                // Given all the winning conditions, Determine the winning logic. 
-                for (int i = 0; i < winners.Length; i++)
-                {
-                    Position p1 = Player.PositionForNumber(winners[i][0]);
-                    Position p2 = Player.PositionForNumber(winners[i][1]);
-                    Position p3 = Player.PositionForNumber(winners[i][2]);
-
-                    string a = Board.GameBoard[p1.Row, p1.Column];
-                    string b = Board.GameBoard[p2.Row, p2.Column];
-                    string c = Board.GameBoard[p3.Row, p3.Column];
-
-                    // TODO:  Determine a winner has been reached. 
-                    // return true if a winner has been reached. 
-
-                }
-
-                return false;
-            }
-
-
-            /// <summary>
-            /// Determine next player
-            /// </summary>
-            /// <returns>next player</returns>
-            public Player NextPlayer()
+            // Given all the winning conditions, Determine the winning logic. 
+            for (int i = 0; i < winners.Length; i++)
             {
-                return (PlayerOne.IsTurn) ? PlayerOne : PlayerTwo;
+                Position p1 = Player.PositionForNumber(winners[i][0]);
+                Position p2 = Player.PositionForNumber(winners[i][1]);
+                Position p3 = Player.PositionForNumber(winners[i][2]);
+
+                string a = Board.GameBoard[p1.Row, p1.Column];
+                string b = Board.GameBoard[p2.Row, p2.Column];
+                string c = Board.GameBoard[p3.Row, p3.Column];
+
+                if (a == b && b == c) return true;
+                // TODO:  Determine a winner has been reached. 
+                // return true if a winner has been reached. 
             }
 
-            /// <summary>
-            /// End one players turn and activate the other
-            /// </summary>
-            public void SwitchPlayer()
+            return false;
+        }
+
+
+
+
+        /// <summary>
+        /// Determine next player
+        /// </summary>
+        /// <returns>next player</returns>
+        public Player NextPlayer()
+        {
+            return (PlayerOne.IsTurn) ? PlayerOne : PlayerTwo;
+        }
+
+        /// <summary>
+        /// End one players turn and activate the other
+        /// </summary>
+        public void SwitchPlayer()
+        {
+            if (PlayerOne.IsTurn)
             {
-                if (PlayerOne.IsTurn)
-                {
 
-                    PlayerOne.IsTurn = false;
+                PlayerOne.IsTurn = false;
 
 
-                    PlayerTwo.IsTurn = true;
-                }
-                else
-                {
-                    PlayerOne.IsTurn = true;
-                    PlayerTwo.IsTurn = false;
-                }
+                PlayerTwo.IsTurn = true;
             }
-
+            else
+            {
+                PlayerOne.IsTurn = true;
+                PlayerTwo.IsTurn = false;
+            }
 
         }
+
+
     }
+}

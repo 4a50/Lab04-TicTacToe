@@ -17,6 +17,7 @@ namespace Lab04_TicTacToe
 
         public void DisplayBoard()
         {
+            Console.Clear();
             Console.WriteLine("---------");
             for (int i = 0; i < GameBoard.GetLength(0); i++)
             {
