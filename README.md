@@ -12,12 +12,15 @@ Run the program in visual studio by selecting file -> open -> Project/Solution, 
 
 ### Visuals:
 Program Start:
+
 ![Start](https://github.com/4a50/Lab04-TicTacToe/blob/master/assets/start.png)
 
 In Progress:
+
 ![Progress](https://github.com/4a50/Lab04-TicTacToe/blob/master/assets/mid.png)
 
 Complete Run:
+
 ![Finished](https://github.com/4a50/Lab04-TicTacToe/blob/master/assets/end.png)
 
 ### Changelog:
