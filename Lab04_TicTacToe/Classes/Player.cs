@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lab04_TicTacToe.Classes
+namespace Lab04_TicTacToe
 {
-    class Player
+    public class Player
     {
 		public string Name { get; set; }
 		/// <summary>

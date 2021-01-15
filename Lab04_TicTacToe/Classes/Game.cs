@@ -2,9 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lab04_TicTacToe.Classes
+// get player input
+// switch cases
+// update array with characters
+// check for valid player input
+// check for valid player placement
+// check for winner
+
+namespace Lab04_TicTacToe
 {
-	class Game
+	public class Game
 	{
 		public Player PlayerOne { get; set; }
 		public Player PlayerTwo { get; set; }
@@ -32,6 +39,8 @@ namespace Lab04_TicTacToe.Classes
 		{
 
 			//TODO: Complete this method and utilize the rest of the class structure to play the game.
+
+
 
             /*
              * Complete this method by constructing the logic for the actual playing of Tic Tac Toe. 
