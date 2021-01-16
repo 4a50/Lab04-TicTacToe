@@ -28,22 +28,35 @@ namespace Lab04_TicTacToe
         /// Activate the Play of the game
         /// </summary>
         /// <returns>Winner</returns>
-        public Player Play()
+         public Player Play()
         {            
-            int counter = 1;
             Player currentPlayer;
             do
             {
                 SwitchPlayer();
                 Board.DisplayBoard();                                
                 currentPlayer = NextPlayer();
-                if (counter > 9)
+                do
                 {
-                    currentPlayer.Name = "Draw";
-                    return currentPlayer;
-                }
-                currentPlayer.TakeTurn(Board);
-                counter++;
+                    bool draw = true;
+                    for (int i = 0; i < Board.GameBoard.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < Board.GameBoard.GetLength(0); j++)
+                        {
+                            if (Int32.TryParse(Board.GameBoard[i, j], out _))
+                            {
+                                draw = false;
+                            }
+                        }
+                    }
+
+                    if (draw)
+                    {
+                        currentPlayer.Name = "Draw";
+                        return currentPlayer;
+                    }
+                    currentPlayer.TakeTurn(Board);
+                } while (!currentPlayer.IsTurn);
             } while (!CheckForWinner(Board));
 
             Winner = currentPlayer;
